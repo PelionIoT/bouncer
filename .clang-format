@@ -1,0 +1,37 @@
+---
+Language:        Cpp
+BasedOnStyle: LLVM
+ColumnLimit:     120
+BreakBeforeBraces: Linux
+AllowShortFunctionsOnASingleLine: false
+AllowShortBlocksOnASingleLine: false
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 8
+AlignAfterOpenBracket: Align
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+IndentWidth:     4
+AccessModifierOffset: -4
+SortIncludes:    false
+SpaceAfterCStyleCast: true
+IndentCaseLabels: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles:  false
+SpacesInContainerLiterals: true
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+PenaltyReturnTypeOnItsOwnLine: 999
+PenaltyBreakBeforeFirstCallParameter: 600
+PenaltyBreakAssignment: 700
+Standard:        Auto
+TabWidth:        8
+UseTab:          Never
+BinPackParameters: false
+BinPackArguments: false
+ExperimentalAutoDetectBinPacking: false
+AllowAllParametersOfDeclarationOnNextLine: false
+...

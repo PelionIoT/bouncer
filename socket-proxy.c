@@ -37,7 +37,7 @@ void proxy_loop(int fd0, int fd1)
         goto out;
     }
 
-    while(1) {
+    while (1) {
         event_count = epoll_wait(epoll_fd, events, MAX_EVENTS, 30000);
         if (event_count == -1) {
             perror("Failed to wait for epoll events");
@@ -87,7 +87,7 @@ int connect_to_docker(char *docker_sock_path)
     memset(&docker_sockaddr, 0, sizeof docker_sockaddr);
     docker_sockaddr.sun_family = AF_UNIX;
     strncpy(docker_sockaddr.sun_path, docker_sock_path, sizeof docker_sockaddr.sun_path);
-    rc = connect(docker_fd, (struct sockaddr *)&docker_sockaddr, sizeof(docker_sockaddr));
+    rc = connect(docker_fd, (struct sockaddr *) &docker_sockaddr, sizeof(docker_sockaddr));
     if (rc == -1) {
         perror("Failed to connect to docker socket");
         close(docker_fd);
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
     listen_sockaddr.sun_family = AF_UNIX;
     strncpy(listen_sockaddr.sun_path, argv[1], sizeof listen_sockaddr.sun_path);
     unlink(listen_sockaddr.sun_path);
-    rc = bind(listen_fd, (struct sockaddr *)&listen_sockaddr, sizeof(listen_sockaddr));
+    rc = bind(listen_fd, (struct sockaddr *) &listen_sockaddr, sizeof(listen_sockaddr));
     if (rc == -1) {
         perror("Failed to bind listening socket");
         goto out1;
@@ -149,6 +149,8 @@ int main(int argc, char **argv)
         }
 
         proxy_loop(accept_fd, docker_fd);
+        close(accept_fd);
+        close(docker_fd);
     }
 
 out:
