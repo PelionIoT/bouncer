@@ -129,7 +129,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "Bound socket to %s\n", listen_sockaddr.sun_path);
 
     // Accept a connection on the proxy sock
-    if (listen(listen_fd, 1) == -1) {
+    if (listen(listen_fd, SOMAXCONN) == -1) {
         perror("Failed to listen on proxy socket");
         goto out;
     }
