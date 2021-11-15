@@ -1,12 +1,12 @@
-# socket-proxy
+# bouncer
 
 Proxy a unix socket
 
 ## Build
 
 ```
-git clone https://github.com/PelionIoT/socket-proxy.git
-cd socket-proxy
+git clone https://github.com/PelionIoT/bouncer.git
+cd bouncer
 mkdir build
 cd build
 cmake ..
@@ -16,5 +16,5 @@ make
 ## Run
 
 ```
-./socket-proxy <listening socket path> <docker.sock path>
+./bouncer <listening socket path> <docker.sock path>
 ```
