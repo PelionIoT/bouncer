@@ -90,12 +90,12 @@ void proxy_loop(int listen_fd, char *docker_sock_path)
             break;
         }
         for (i = 0; i < event_count; i++) {
-            int done = 0;
+            int connection_finished = 0;
             pair = (struct proxy_pair *)events[i].data.ptr;
             fprintf(stderr, "got epoll event: %d %d\n", pair->fd_in, pair->fd_out);
             if (events[i].events & EPOLLHUP) {
                 fprintf(stderr, "epoll HUP\n");
-                done = 1;
+                connection_finished = 1;
             }
             if ((events[i].events & EPOLLERR) ||
                 (!(events[i].events & EPOLLIN))) {
@@ -127,18 +127,18 @@ void proxy_loop(int listen_fd, char *docker_sock_path)
                     break;
                 } else if (rc == 0) {
                     fprintf(stderr, "Got EOF from fd %d.\n", pair->fd_in);
-                    done = 1;
+                    connection_finished = 1;
                 }
 
                 rc = write(pair->fd_out, buf, rc);
                 if (rc == -1) {
                     perror("Failed to write to socket");
-                    done = 1;
+                    connection_finished = 1;
                 }
 
             }
 
-            if (done) {
+            if (connection_finished) {
                 // close()ing a file descriptor makes epoll remove it from the interest list
                 close(pair->fd_in);
                 close(pair->fd_out);
@@ -208,7 +208,7 @@ int main(int argc, char **argv)
     rc = bind(listen_fd, (struct sockaddr *) &listen_sockaddr, sizeof(listen_sockaddr));
     if (rc == -1) {
         perror("Failed to bind listening socket");
-        goto out1;
+        goto out2;
     }
     fprintf(stderr, "Bound socket to %s\n", listen_sockaddr.sun_path);
 
